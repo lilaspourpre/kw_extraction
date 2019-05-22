@@ -16,7 +16,6 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Keyword extractor')
     parser.add_argument("-d", "--dataset", dest="dataset", type=lambda x: DATASET.get(x), nargs="?", default="ng",
                         choices=DATASET.keys())
-    parser.add_argument("-e", "--extractor", dest="extractor", type=str, default=TfIdfExtractor)
     return parser.parse_args()
 
 
@@ -30,7 +29,7 @@ def main():
     args = parse_arguments()
     dataset = Dataset(args.dataset, normalize=False)
 
-    extractor = args.extractor(dataset.get_texts())
+    extractor = TfIdfExtractor(dataset.get_texts())
     evaluate_extractor(extractor, dataset)
     extractor.save_to_path("tfidf.pickle")
 
