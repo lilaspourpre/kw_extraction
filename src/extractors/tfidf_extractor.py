@@ -6,14 +6,14 @@ from extractors.model import Model
 
 
 class TfIdfExtractor(Model):
-    def __init__(self, texts):
+    def __init__(self):
         self.tfidf = TfidfVectorizer(ngram_range=(1, 2), min_df=2)
-        self.tfidf.fit(texts)
-        self.id2word = {i: word for i, word in enumerate(self.tfidf.get_feature_names())}
 
-    def predict(self, data):
+    def predict(self, data, top_n=10):
+        self.tfidf.fit(data)
+        id2word = {i: word for i, word in enumerate(self.tfidf.get_feature_names())}
         texts_vectors = self.tfidf.transform(data)
-        return [[self.id2word[w] for w in top] for top in texts_vectors.toarray().argsort()[:, :-11:-1]]
+        return [[id2word[w] for w in top] for top in texts_vectors.toarray().argsort()[:, :-top_n-1:-1]]
 
     def save_to_path(self, path):
         with open(os.path.join("./../models/", path), 'wb') as file_to_write:

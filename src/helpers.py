@@ -1,6 +1,6 @@
 from string import punctuation
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
 import os
 import pandas as pd
 
@@ -15,17 +15,17 @@ def read_data(path):
                      axis=0, ignore_index=True)
 
 
-def tokenize(text):
-    tokens = word_tokenize(text)
-    return tokens
+def normalize_text(text, morph):
+    sentences = sent_tokenize(text, "russian")
+    words_in_sentences = []
+    for sentence in sentences:
+        words = [word.strip(PUNCT) for word in sentence.lower().split()]
+        morph_parsed = [morph.parse(word)[0] for word in words if word and word not in STOP_WORDS]
+        nominative_form = [word.inflect({'nomn'}) for word in morph_parsed if word.tag.POS in ('NOUN', "ADJS", "ADJF")]
+        words = [form.word for form in nominative_form if form is not None]
+        words_in_sentences.append(words)
+    return words_in_sentences
 
 
-def normalize_text(words, morph):
-    words = [morph.parse(word)[0] for word in words if word and word not in STOP_WORDS]
-    words = [word.inflect({'nomn'}) for word in words if
-             word.tag.POS == 'NOUN' or word.tag.POS == "ADJS" or word.tag.POS == "ADJF"]
-    words = [word.word for word in words if word is not None]
-    return " ".join(words)
-
-
-
+def split_sentences(text):
+    return [word_tokenize(sentence) for sentence in sent_tokenize(text)]
