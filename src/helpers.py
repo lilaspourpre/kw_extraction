@@ -1,5 +1,6 @@
 from string import punctuation
 from nltk.corpus import stopwords
+from nltk.util import ngrams
 from nltk.tokenize import word_tokenize, sent_tokenize
 import os
 import pandas as pd
@@ -29,3 +30,21 @@ def normalize_text(text, morph):
 
 def split_sentences(text):
     return [word_tokenize(sentence) for sentence in sent_tokenize(text)]
+
+
+def get_ngrams(tokens, n=2):
+    return [" ".join(i) for i in list(ngrams(tokens, n))]
+
+
+def join_to_text(tokens_in_sentence):
+    normalized_texts = []
+    for text in tokens_in_sentence:
+        normalized_texts.append(" ".join([" ".join(sentence) for sentence in text]))
+    return normalized_texts
+
+
+def add_ngrams(texts, n=2):
+    updated_texts = []
+    for text in texts:
+        updated_texts.append([sentence + get_ngrams(sentence, n) for sentence in text])
+    return updated_texts
