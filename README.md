@@ -44,7 +44,24 @@ optional arguments:
 
 ### Results
 
+#### TFIDF
 
+| Metric | Value |
+| -------- | ------|
+|Precision | 0.1385|
+|Recall |  0.2649|
+|F1 |  0.1733|
+|Jaccard |  0.1014|
+
+#### SCAKE
+(much slower than tfidf)
+
+| Metric | Value |
+| -------- | ------|
+|Precision | |
+|Recall |  |
+|F1 |  |
+|Jaccard | |
 
 ### Implementation mode
 
