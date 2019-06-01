@@ -63,6 +63,15 @@ optional arguments:
 |F1 |  |
 |Jaccard | |
 
+#### NN
+
+| Metric | Value |
+| -------- | ------|
+|Precision | |
+|Recall |  |
+|F1 |  |
+|Jaccard | |
+
 ### Implementation mode
 
 File "**main.py**" contains text that is normalized and then kws are extracted using different approaches in parallel with the usage of celery
