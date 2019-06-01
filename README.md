@@ -42,7 +42,7 @@ optional arguments:
   -m [{tfidf,scake}], --model [{tfidf,scake}]
 ```
 
-### Results
+### Results on NG dataset
 
 #### TFIDF
 
