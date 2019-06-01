@@ -39,6 +39,10 @@ optional arguments:
   -m [{tfidf,scake}], --model [{tfidf,scake}]
 ```
 
+### Results
+
+
+
 ### Implementation mode
 
 File "**main.py**" contains text that is normalized and then kws are extracted using different approaches in parallel with the usage of celery
