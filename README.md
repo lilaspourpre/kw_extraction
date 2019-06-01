@@ -2,7 +2,12 @@
 
 ### Datasets
 
+from https://github.com/mannefedov/ru_kw_eval_datasets
 
+habr -- HabraHabr https://habr.com/
+ng -- Независимая Газета http://www.ng.ru/
+rt -- Russia Today https://russian.rt.com/
+cl -- Cyberleninka https://cyberleninka.ru/
 
 ### Preprocessing options (nltk, pymorphy):
   1) tokenization  
@@ -36,4 +41,4 @@ optional arguments:
 
 ### Implementation mode
 
-
+File "**main.py**" contains text that is normalized and then kws are extracted using different approaches in parallel with the usage of celery
