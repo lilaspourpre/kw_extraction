@@ -18,12 +18,14 @@ class SCAKEModel(Model):
     def extract_keywords(self, tokens_and_ngrams, top_n):
         matrix, id2word = self.create_matrix(tokens_and_ngrams)
         G = nx.from_numpy_array(matrix)
-        node2measure = dict(nx.pagerank(G))
+        node2measure = dict(nx.pagerank(G, weight=True))
         return [id2word[index] for index, measure in sorted(node2measure.items(), key=lambda x: -x[1])[:top_n]]
 
     def create_matrix(self, tokens_and_ngrams):
         word2id, id2word = self.build_dictionary(tokens_and_ngrams)
-        columns = np.array([self.generate_column(word2id, items) for items in tokens_and_ngrams])
+        scake_texts = [i+j for i, j in zip(tokens_and_ngrams, tokens_and_ngrams[1:])]\
+            if len(tokens_and_ngrams) > 1 else tokens_and_ngrams
+        columns = np.array([self.generate_column(word2id, item) for item in scake_texts])
         adjacency_matrix = np.matmul(columns.transpose(), columns)
         for i in range(adjacency_matrix.shape[0]):
             adjacency_matrix[i][i] = 0
