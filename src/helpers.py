@@ -33,7 +33,10 @@ def split_sentences(text):
 
 
 def get_ngrams(tokens, n=2):
-    return [" ".join(i) for i in list(ngrams(tokens, n))]
+    result = []
+    for i in range(2, n+1):
+        result.extend(list(ngrams(tokens, i)))
+    return [" ".join(i) for i in result]
 
 
 def join_to_text(tokens_in_sentence):
