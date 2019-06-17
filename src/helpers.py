@@ -30,7 +30,7 @@ def normalize_text(text, morph):
 
 def split_sentences(text):
     result = [word_tokenize(sentence) for sentence in sent_tokenize(text)]
-    return filter(None, result)
+    return list(filter(None, result))
 
 
 def get_ngrams(tokens, n=2):

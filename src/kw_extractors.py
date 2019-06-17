@@ -1,5 +1,5 @@
 import tensorflow as tf
-import numpy as np
+from gensim.models.fasttext import FastText
 
 from extractors.tfidf_model import TFIDFModel
 from extractors.scake_model import SCAKEModel
@@ -18,15 +18,28 @@ def scake_extractor(dataset, _output_path, top_n=10):
     return extractor.predict(dataset.get_tokens_and_ngrams(), top_n=top_n)
 
 
-def lstm_extractor(dataset, output_path, top_n=10):
-    def _generator():
-        for text_tokens, token_labels in zip(dataset.get_tokens(), dataset.get_labels()):
-            yield np.zeros((len(text_tokens), 100)), len(text_tokens), np.zeros((len(token_labels),2))
-    shapes = ((100,), (1), (2,))
-    dataset = tf.data.Dataset.from_generator(generator=_generator,
-                                             output_types=(tf.float32, tf.int32, tf.float32),
-                                             output_shapes=shapes).batch(16)
-    dataset = dataset.make_initializable_iterator()
-    extractor = LSTMModel(512)
-    extractor.train(dataset)
-    #extractor.predict()
+def lstm_extractor(dataframe, output_path, _top_n=10, fasttext_path='../models/cc.ru.300.bin'):
+    output_size = 1
+    hidden_size = 512
+    shapes = ([None, 300], [], [None, output_size])
+    dataset = tf.data.Dataset.from_generator(generator=DatasetGenerator(dataframe, fasttext_path).get_generator,
+                                             output_types=(tf.float32, tf.int32, tf.float32)) \
+        .padded_batch(16, padded_shapes=shapes, drop_remainder=True)
+
+    train_iterator = dataset.make_initializable_iterator()
+    iterable_tensors = train_iterator.get_next()
+    extractor = LSTMModel(iterable_tensors, hidden_size=hidden_size, output_size=output_size)
+    extractor.train(train_iterator, output_path)
+
+
+class DatasetGenerator:
+    def __init__(self, dataset, model_path):
+        self.dataset = dataset
+        self.model = FastText.load_fasttext_format(model_path)
+
+    def get_generator(self):
+        for text_tokens, token_labels in zip(self.dataset.get_tokens(), self.dataset.get_labels()):
+            yield [self.get_vector(token) for token in text_tokens], len(text_tokens), [[i] for i in token_labels]
+
+    def get_vector(self, token):
+        return self.model.wv[token]

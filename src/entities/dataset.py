@@ -6,7 +6,7 @@ from helpers import *
 class Dataset:
     def __init__(self, dataset_path, normalize=False):
         self.normalize = normalize
-        self.data = read_data(dataset_path)
+        self.data = read_data(dataset_path).head(10)
         self.set_sentences(normalize)
         self.set_labels()
 
@@ -39,7 +39,7 @@ class Dataset:
         return self.data['labels'].tolist()
 
     def get_tokens(self):
-        return [[token for sentence in text for token in sentence] for text in self.data['sentences']]
+        return [[token for sentence in text for token in sentence] for text in self.data['sentences'].tolist()]
 
     def get_sentences(self):
         return self.data['sentences'].tolist()
@@ -47,3 +47,6 @@ class Dataset:
     def get_tokens_and_ngrams(self, n=3):
         texts = self.data['sentences']
         return add_ngrams(texts, n=n)
+
+    def get_shape(self):
+        return self.data.shape[0]
