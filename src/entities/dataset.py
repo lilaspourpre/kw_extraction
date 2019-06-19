@@ -6,7 +6,7 @@ from helpers import *
 class Dataset:
     def __init__(self, dataset_path, normalize=False):
         self.normalize = normalize
-        self.data = read_data(dataset_path).head(10)
+        self.data = read_data(dataset_path)
         self.set_sentences(normalize)
         self.set_labels()
 
