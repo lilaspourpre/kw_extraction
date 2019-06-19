@@ -23,7 +23,7 @@ _Further improvements: implement udpipe for tokenization and lemmatization, comb
 ### Approaches
 
 1. Simple TFIDF method
-2. SCAKE graph method
+2. SCAKE graph method https://arxiv.org/pdf/1811.10831v1.pdf
 3. NN approach (in progress)
 
 
@@ -58,19 +58,14 @@ optional arguments:
 
 | Metric | Value |
 | -------- | ------|
-|Precision | 0.1333 |
-|Recall | 0.2561 |
-|F1 | 0.167 |
-|Jaccard | 0.0974 |
+|Precision |  |
+|Recall |  |
+|F1 |  |
+|Jaccard |  |
 
 #### NN
 
-| Metric | Value |
-| -------- | ------|
-|Precision | |
-|Recall |  |
-|F1 |  |
-|Jaccard | |
+Model implemented but does not perform well. Further investigation needed
 
 ### Implementation mode
 
