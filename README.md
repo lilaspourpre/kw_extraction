@@ -65,7 +65,7 @@ optional arguments:
 
 #### NN
 
-Model implemented but does not perform well. Further investigation needed
+Model implemented (training is available), but it does not perform well. Further investigation needed
 
 ### Implementation mode
 
