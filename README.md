@@ -58,10 +58,10 @@ optional arguments:
 
 | Metric | Value |
 | -------- | ------|
-|Precision |  |
-|Recall |  |
-|F1 |  |
-|Jaccard |  |
+|Precision | 0.1717 |
+|Recall | 0.2833 |
+|F1 | 0.2021 |
+|Jaccard | 0.1199 |
 
 #### NN
 
